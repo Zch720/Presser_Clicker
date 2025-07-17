@@ -3,6 +3,14 @@ import keyboard
 import time
 import threading
 
+class KeyDataInvalid(Exception):
+    pass
+
+
+class KeyAdded(Exception):
+    pass
+
+
 class KeyData:
     HOLD_TYPE = 'hold'
     CLICK_TYPE = 'click'
@@ -42,15 +50,23 @@ class PresserClicker:
 
     
     def addHoldKey(self, device, key):
-        self.keys.append(KeyData(device, key, KeyData.HOLD_TYPE))
+        data = KeyData(device, key, KeyData.HOLD_TYPE)
+        self.__checkKeyDataValid(data)
+        self.keys.append(data)
     
 
     def addClickKey(self, device, key, interval):
-        self.keys.append(KeyData(device, key, KeyData.CLICK_TYPE, interval))
+        data = KeyData(device, key, KeyData.CLICK_TYPE, interval)
+        self.__checkKeyDataValid(data)
+        self.keys.append(data)
 
     
     def removeKey(self, device, key):
         self.keys = [x for x in self.keys if x.device != device or x.key != key]
+
+    
+    def readyToListen(self) -> bool:
+        return self.toggleKey != None
 
     
     def startListening(self):
@@ -61,6 +77,17 @@ class PresserClicker:
     def stopListening(self):
         self.listening = False
         self.toggled = False
+
+    
+    def __checkKeyDataValid(self, keyData: KeyData):
+        if keyData.key == '':
+            raise KeyDataInvalid()
+        if keyData.type == KeyData.CLICK_TYPE and keyData.interval < 0.01:
+            raise KeyDataInvalid()
+
+        for key in self.keys:
+            if key.device == keyData.device and key.key == keyData.key:
+                raise KeyAdded()
 
     
     def __listenToggleKey(self):

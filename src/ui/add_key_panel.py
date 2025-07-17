@@ -1,8 +1,9 @@
 import dearpygui.dearpygui as dpg
-from presser_clicker import PresserClicker
+from presser_clicker import PresserClicker, KeyDataInvalid, KeyAdded
 from ui.font_manager import FontManager
 from ui.tag_manager import TagManager as TMng
 from ui.dpg_component import DpgComponent
+from ui.message_box import MessageBox
 from ui.key_table import KeyTable
 
 class AddKeyPanel(DpgComponent):
@@ -39,20 +40,26 @@ class AddKeyPanel(DpgComponent):
 
 
     def onAddKeyBtnClicked(self):
-        device = dpg.get_value(TMng.AddKeyPanelTags.AddedKeyDeviceCombo)
-        key = ''
-        if device == 'keyboard':
-            key = dpg.get_item_configuration(TMng.AddKeyPanelTags.AddedKey)['label']
-        else:
-            key = dpg.get_value(TMng.AddKeyPanelTags.MouseBtnCombo)
+        try:
+            device = dpg.get_value(TMng.AddKeyPanelTags.AddedKeyDeviceCombo)
+            key = ''
+            if device == 'keyboard':
+                key = dpg.get_item_configuration(TMng.AddKeyPanelTags.AddedKey)['label']
+                key = '' if key == 'not set' else key
+            else:
+                key = dpg.get_value(TMng.AddKeyPanelTags.MouseBtnCombo)
 
-        if dpg.get_value(TMng.AddKeyPanelTags.AddedKeyActionCombo) == 'hold':
-            self.controller.addHoldKey(device, key)
-        else:
-            interval = dpg.get_value(TMng.AddKeyPanelTags.KeyClickInterval)
-            self.controller.addClickKey(device, key, interval)
+            if dpg.get_value(TMng.AddKeyPanelTags.AddedKeyActionCombo) == 'hold':
+                self.controller.addHoldKey(device, key)
+            else:
+                interval = dpg.get_value(TMng.AddKeyPanelTags.KeyClickInterval)
+                self.controller.addClickKey(device, key, interval)
 
-        self.keyTableComp.addLastKeyDataToTable()
+            self.keyTableComp.addLastKeyDataToTable()
+        except KeyDataInvalid:
+            MessageBox('Key data is invalid').render()
+        except KeyAdded:
+            MessageBox('This key is already added').render()
 
     def render(self):
         with dpg.group(horizontal=True):

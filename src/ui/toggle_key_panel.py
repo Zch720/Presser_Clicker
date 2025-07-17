@@ -3,6 +3,7 @@ from presser_clicker import PresserClicker
 from ui.font_manager import FontManager
 from ui.tag_manager import TagManager as TMng
 from ui.dpg_component import DpgComponent
+from ui.message_box import MessageBox
 
 class ToggleKeyPanel(DpgComponent):
     def __init__(self, fontManager: FontManager, controller: PresserClicker):
@@ -27,12 +28,16 @@ class ToggleKeyPanel(DpgComponent):
                 dpg.configure_item(dpg.get_item_children(row)[1][4], enabled=True)
             self.controller.stopListening()
         else:
+            if not self.controller.readyToListen():
+                MessageBox('Please set the toggle key').render()
+                return
+            
+            self.controller.startListening()
             dpg.configure_item(TMng.ToggleKeyPanelTags.StartListenBtn, label='Stop Listen')
             dpg.configure_item(TMng.ToggleKeyPanelTags.ToggleKey, enabled=False)
             dpg.configure_item(TMng.AddKeyPanelTags.AddKeyBtn, enabled=False)
             for row in dpg.get_item_children(TMng.KeyTableTags.KeyTable)[1]:
                 dpg.configure_item(dpg.get_item_children(row)[1][4], enabled=False)
-            self.controller.startListening()
 
 
     def updateToggleKeyText(self):
