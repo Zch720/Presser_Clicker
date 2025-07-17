@@ -12,7 +12,7 @@ class ParserClickerUI:
 
     def run(self):
         dpg.create_context()
-        dpg.create_viewport(title='Presser, Clicker', width=500, height=350)
+        dpg.create_viewport(title='Presser, Clicker', width=500, height=350, small_icon="./resources/icon_small.ico", large_icon="./resources/icon_large.ico")
         self.fontManager.init()
         dpg.bind_font(self.fontManager.DefaultFont)
 
