@@ -15,7 +15,6 @@ class KeyData:
 
 
 class PresserClicker:
-
     def __init__(self):
         self.toggleKey = None
         self.keys: list[KeyData] = []
