@@ -59,6 +59,10 @@ class PresserClicker:
         data = KeyData(device, key, KeyData.CLICK_TYPE, interval)
         self.__checkKeyDataValid(data)
         self.keys.append(data)
+    
+    
+    def getLastedKeyData(self) -> KeyData:
+        return self.keys[-1]
 
     
     def removeKey(self, device, key):

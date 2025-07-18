@@ -7,8 +7,9 @@ from ui.message_box import MessageBox
 from ui.key_table import KeyTable
 
 class AddKeyPanel(DpgComponent):
-    def __init__(self, fontManager: FontManager, controller: PresserClicker, keyTableComp: KeyTable):
+    def __init__(self, fontManager: FontManager, messageBoxComp: MessageBox, controller: PresserClicker, keyTableComp: KeyTable):
         self.fontManager: FontManager = fontManager
+        self.messageBoxComp: MessageBox = messageBoxComp
         self.controller: PresserClicker = controller
         self.keyTableComp: KeyTable = keyTableComp
 
@@ -35,8 +36,10 @@ class AddKeyPanel(DpgComponent):
     def onKeyActionComboChanged(self, sender, value):
         if value == 'click':
             dpg.show_item(TMng.AddKeyPanelTags.KeyClickInterval)
+            dpg.hide_item(TMng.AddKeyPanelTags.AddBtnSpacer)
         else:
             dpg.hide_item(TMng.AddKeyPanelTags.KeyClickInterval)
+            dpg.show_item(TMng.AddKeyPanelTags.AddBtnSpacer)
 
 
     def onAddKeyBtnClicked(self):
@@ -57,9 +60,9 @@ class AddKeyPanel(DpgComponent):
 
             self.keyTableComp.addLastKeyDataToTable()
         except KeyDataInvalid:
-            MessageBox('Key data is invalid').render()
+            self.messageBoxComp.show('Key data is invalid')
         except KeyAdded:
-            MessageBox('This key is already added').render()
+            self.messageBoxComp.show('This key is already added')
 
     def render(self):
         with dpg.group(horizontal=True):
@@ -77,4 +80,6 @@ class AddKeyPanel(DpgComponent):
             dpg.add_input_double(default_value=0.01, tag=TMng.AddKeyPanelTags.KeyClickInterval, width=100, min_value=0.01, min_clamped=True, step=0.01, format='%.2f')
             dpg.hide_item(TMng.AddKeyPanelTags.KeyClickInterval)
 
-            dpg.add_button(label='Add', indent=430, tag=TMng.AddKeyPanelTags.AddKeyBtn, callback=self.onAddKeyBtnClicked)
+            dpg.add_spacer(tag=TMng.AddKeyPanelTags.AddBtnSpacer, width=100)
+
+            dpg.add_button(label='Add', tag=TMng.AddKeyPanelTags.AddKeyBtn, callback=self.onAddKeyBtnClicked)

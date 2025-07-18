@@ -6,8 +6,9 @@ from ui.dpg_component import DpgComponent
 from ui.message_box import MessageBox
 
 class ToggleKeyPanel(DpgComponent):
-    def __init__(self, fontManager: FontManager, controller: PresserClicker):
+    def __init__(self, fontManager: FontManager, messageBoxComp: MessageBox, controller: PresserClicker):
         self.fontManager: FontManager = fontManager
+        self.messageBoxComp: MessageBox = messageBoxComp
         self.controller: PresserClicker = controller
 
         controller.toggleEventListener = self.toggleStateChangeEventListener
@@ -29,7 +30,7 @@ class ToggleKeyPanel(DpgComponent):
             self.controller.stopListening()
         else:
             if not self.controller.readyToListen():
-                MessageBox('Please set the toggle key').render()
+                self.messageBoxComp.show('Please set the toggle key')
                 return
             
             self.controller.startListening()
