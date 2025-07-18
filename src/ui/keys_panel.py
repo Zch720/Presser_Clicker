@@ -13,6 +13,7 @@ class KeysPanel(DpgComponent):
         self.messageBoxComp: MessageBox = messageBoxComp
         self.controller: PresserClicker = controller
     
+    
     def render(self):
         with dpg.group():
             keyTableComp = KeyTable(self.fontManager, self.messageBoxComp, self.controller)

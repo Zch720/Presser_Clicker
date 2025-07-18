@@ -64,6 +64,7 @@ class AddKeyPanel(DpgComponent):
         except KeyAdded:
             self.messageBoxComp.show('This key is already added')
 
+
     def render(self):
         with dpg.group(horizontal=True):
             dpg.add_combo(default_value='keyboard', items=['keyboard', 'mouse'], tag=TMng.AddKeyPanelTags.AddedKeyDeviceCombo, width=100, callback=self.onAddKeyComboChanged)

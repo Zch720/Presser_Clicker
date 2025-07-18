@@ -1,6 +1,8 @@
 class TagManager:
     class TextureTags:
         Delete = 'texture/delete'
+        Up = 'texture/up'
+        Down = 'texture/down'
 
     class ToggleKeyPanelTags:
         ToggleKeyLabel = 'toggle_key_panel/toggle_key_label'
@@ -10,12 +12,13 @@ class TagManager:
 
     class KeysPanelTags:
         AddKeyLabel = 'keys_panel/add_key_label'
-
     
     class KeyTablePanelTags:
+        KeyTablePanel = 'key_table_panel/key_table_panel'
+        MoveRowUpBtn = 'key_table_panel/move_row_up_btn'
+        MoveRowDownBtn = 'key_table_panel/move_row_down_btn'
         DeleteRowBtn = 'key_table_panel/delete_row_btn'
 
-    
     class KeyTableTags:
         KeyTable = 'key_table/key_table'
     

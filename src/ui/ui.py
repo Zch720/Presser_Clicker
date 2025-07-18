@@ -21,6 +21,8 @@ class ParserClickerUI:
     def loadTextures(self):
         with dpg.texture_registry():
             self.loadTexture(util.resource_path('delete.png'), TMng.TextureTags.Delete)
+            self.loadTexture(util.resource_path('up.png'), TMng.TextureTags.Up)
+            self.loadTexture(util.resource_path('down.png'), TMng.TextureTags.Down)
 
     
     def setTheme(self):
@@ -33,7 +35,16 @@ class ParserClickerUI:
                 dpg.add_theme_style(dpg.mvStyleVar_SelectableTextAlign, 0, 0.5, category=dpg.mvThemeCat_Core)
                 dpg.add_theme_color(dpg.mvThemeCol_Button, (60, 60, 67), category=dpg.mvThemeCat_Core)
                 dpg.add_theme_color(dpg.mvThemeCol_FrameBg, (60, 60, 67), category=dpg.mvThemeCat_Core)
+        with dpg.theme() as keyTableTheme:
+            with dpg.theme_component(dpg.mvAll):
+                dpg.add_theme_color(dpg.mvThemeCol_Header, (39, 39, 45), category=dpg.mvThemeCat_Core)
+                dpg.add_theme_color(dpg.mvThemeCol_HeaderHovered, (29, 151, 236, 130), category=dpg.mvThemeCat_Core)
+        with dpg.theme() as keyTablePanelTheme:
+            with dpg.theme_component(dpg.mvAll):
+                dpg.add_theme_style(dpg.mvStyleVar_ItemSpacing, 4, category=dpg.mvThemeCat_Core)
         dpg.bind_theme(globalTheme)
+        dpg.bind_item_theme(TMng.KeyTableTags.KeyTable, keyTableTheme)
+        dpg.bind_item_theme(TMng.KeyTablePanelTags.KeyTablePanel, keyTablePanelTheme)
 
 
     def run(self):
@@ -51,6 +62,7 @@ class ParserClickerUI:
             messageBoxComp.render()
 
         self.setTheme()
+        # dpg.show_style_editor()
 
         dpg.set_primary_window('main/window', True)
         dpg.setup_dearpygui()

@@ -2,6 +2,8 @@ import pyautogui
 import keyboard
 import time
 import threading
+import util
+from typing import Callable
 
 class KeyDataInvalid(Exception):
     pass
@@ -28,7 +30,7 @@ class PresserClicker:
         self.keys: list[KeyData] = []
         self.listening = False
         self.toggled = False
-        self.toggleEventListener: callable[[bool], None] = None
+        self.toggleEventListener: Callable[[bool], None] = None
 
     
     def getKey(self) -> str:
@@ -63,6 +65,20 @@ class PresserClicker:
     
     def getLastedKeyData(self) -> KeyData:
         return self.keys[-1]
+    
+
+    def moveKeyUp(self, device, key):
+        index = util.getIndexInList(self.keys, lambda data: data.device == device and data.key == key)
+        if index == 0:
+            return
+        util.moveListItemIndex(self.keys, index, index - 1)
+    
+
+    def moveKeyDown(self, device, key):
+        index = util.getIndexInList(self.keys, lambda data: data.device == device and data.key == key)
+        if index == len(self.keys) - 1:
+            return
+        util.moveListItemIndex(self.keys, index, index + 1)
 
     
     def removeKey(self, device, key):
