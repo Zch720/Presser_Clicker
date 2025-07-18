@@ -1,4 +1,5 @@
 import dearpygui.dearpygui as dpg
+import util
 from presser_clicker import PresserClicker
 from ui.font_manager import FontManager
 from ui.tag_manager import TagManager as TMng
@@ -19,7 +20,7 @@ class ParserClickerUI:
     
     def loadTextures(self):
         with dpg.texture_registry():
-            self.loadTexture('./resources/delete.png', TMng.TextureTags.Delete)
+            self.loadTexture(util.resource_path('delete.png'), TMng.TextureTags.Delete)
 
     
     def setTheme(self):
@@ -37,7 +38,7 @@ class ParserClickerUI:
 
     def run(self):
         dpg.create_context()
-        dpg.create_viewport(title='Presser, Clicker', width=500, height=350, small_icon="./resources/icon_small.ico", large_icon="./resources/icon_large.ico")
+        dpg.create_viewport(title='Presser, Clicker', width=500, height=350, small_icon=util.resource_path('icon_small.ico'), large_icon=util.resource_path('icon_large.ico'))
         self.fontManager.init()
         dpg.bind_font(self.fontManager.DefaultFont)
         self.loadTextures()
