@@ -25,8 +25,6 @@ class ToggleKeyPanel(DpgComponent):
             dpg.configure_item(TMng.ToggleKeyPanelTags.StartListenBtn, label='Start Listen')
             dpg.configure_item(TMng.ToggleKeyPanelTags.ToggleKey, enabled=True)
             dpg.configure_item(TMng.AddKeyPanelTags.AddKeyBtn, enabled=True)
-            for row in dpg.get_item_children(TMng.KeyTableTags.KeyTable)[1]:
-                dpg.configure_item(dpg.get_item_children(row)[1][4], enabled=True)
             self.controller.stopListening()
         else:
             if not self.controller.readyToListen():
@@ -37,8 +35,6 @@ class ToggleKeyPanel(DpgComponent):
             dpg.configure_item(TMng.ToggleKeyPanelTags.StartListenBtn, label='Stop Listen')
             dpg.configure_item(TMng.ToggleKeyPanelTags.ToggleKey, enabled=False)
             dpg.configure_item(TMng.AddKeyPanelTags.AddKeyBtn, enabled=False)
-            for row in dpg.get_item_children(TMng.KeyTableTags.KeyTable)[1]:
-                dpg.configure_item(dpg.get_item_children(row)[1][4], enabled=False)
 
 
     def updateToggleKeyText(self):
